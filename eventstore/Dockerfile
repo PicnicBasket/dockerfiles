@@ -3,7 +3,7 @@
 # VERSION               0.0.2
 
 FROM      ubuntu
-MAINTAINER Andrew Browne <brownie@brownie.com.au>
+MAINTAINER Picnic Software
 
 RUN apt-get update && apt-get install -y curl
 
