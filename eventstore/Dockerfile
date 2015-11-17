@@ -20,5 +20,5 @@ ENV EVENTSTORE_WORKER_THREADS 12
 
 WORKDIR /opt/EventStore-OSS-Ubuntu-v3.3.0
 
-CMD ./run-node.sh --http-prefixes=http://*:2113/ --ext-ip=0.0.0.0 \
+CMD ./run-node.sh --ext-http-prefixes=http://*:2113/ --ext-ip=0.0.0.0 \
     --db /data/db --log /data/logs --run-projections=all
