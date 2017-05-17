@@ -17,9 +17,9 @@ VOLUME /data/logs
 
 ENV EVENTSTORE_MAX_MEM_TABLE_SIZE 100000
 ENV EVENTSTORE_WORKER_THREADS 12
+ENV TZ "Australia/Melbourne"
 
 WORKDIR /opt/EventStore-OSS-Ubuntu-14.04-v3.8.0
 
-CMD export TZ='Australia/Melbourne'
 CMD ./run-node.sh --ext-http-prefixes=http://*:2113/ --ext-ip=0.0.0.0 \
     --db /data/db --log /data/logs --run-projections=all
