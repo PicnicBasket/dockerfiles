@@ -1,24 +1,22 @@
 # EventStore (geteventstore.com)
 #
-# VERSION               0.0.3
+# VERSION               3.3.0
 
-FROM      ubuntu
+FROM microsoft/windowsservercore
 MAINTAINER Picnic Software
 
-RUN apt-get update && apt-get install -y curl
-
-RUN curl http://download.geteventstore.com/binaries/EventStore-OSS-Ubuntu-v3.3.0.tar.gz | tar xz -C /opt
+ADD http://download.geteventstore.com/binaries/EventStore-OSS-Win-v3.3.0.zip /EventStore.zip
+RUN Expand-Archive -Path /EventStore.zip -DestinationPath /EventStore
 
 EXPOSE 2113
 EXPOSE 1113
 
-VOLUME /data/db
-VOLUME /data/logs
+RUN New-Item -Path Data -ItemType Directory
+RUN New-Item -Path Logs -ItemType Directory
 
 ENV EVENTSTORE_MAX_MEM_TABLE_SIZE 100000
 ENV EVENTSTORE_WORKER_THREADS 12
 
-WORKDIR /opt/EventStore-OSS-Ubuntu-v3.3.0
+WORKDIR /EventStoreDocker/EventStore-OSS-Win-v3.3.0
 
-CMD ./run-node.sh --ext-http-prefixes=http://*:2113/ --ext-ip=0.0.0.0 \
-    --db /data/db --log /data/logs --run-projections=all
+CMD /EventStore/EventStore.ClusterNode.exe --db /Data --log /Logs --ext-ip 0.0.0.0 --ext-http-prefixes 'http://+:2113/' 
