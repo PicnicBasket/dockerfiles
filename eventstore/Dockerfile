@@ -18,6 +18,6 @@ ENV TZ "Australia/Melbourne"
 
 WORKDIR /EventStoreDocker/EventStore-OSS-Win-v4.0.2
 
-CMD /EventStore/EventStore.ClusterNode.exe \
+CMD C:/EventStore/EventStore.ClusterNode.exe \
     --ext-http-prefixes 'http://+:2113/' --ext-ip 0.0.0.0 \
     --db /Data --log /Logs --run-projections=all
