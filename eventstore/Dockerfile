@@ -1,4 +1,4 @@
-FROM microsoft/windowsservercore
+FROM microsoft/nanoserver
 LABEL title="EventStore (geteventstore.com)"
 LABEL version="4.0.2"
 LABEL author="Picnic Software"
