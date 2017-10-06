@@ -1,25 +1,23 @@
-# EventStore (geteventstore.com)
-#
-# VERSION               0.0.2
+FROM microsoft/windowsservercore
+LABEL title="EventStore (geteventstore.com)"
+LABEL version="4.0.2"
+LABEL author="Picnic Software"
 
-FROM      ubuntu
-MAINTAINER Picnic Software
-
-RUN apt-get update && apt-get install -y curl
-
-RUN curl http://download.geteventstore.com/binaries/EventStore-OSS-Ubuntu-14.04-v4.0.2.tar.gz | tar xz -C /opt
+ADD https://eventstore.org/downloads/EventStore-OSS-Win-v4.0.2.zip /EventStore.zip
+RUN powershell -command Expand-Archive -Path /EventStore.zip -DestinationPath /EventStore
 
 EXPOSE 2113
 EXPOSE 1113
 
-VOLUME /data/db
-VOLUME /data/logs
+RUN powershell -command New-Item -Path Data -ItemType Directory
+RUN powershell -command New-Item -Path Logs -ItemType Directory
 
 ENV EVENTSTORE_MAX_MEM_TABLE_SIZE 100000
 ENV EVENTSTORE_WORKER_THREADS 12
 ENV TZ "Australia/Melbourne"
 
-WORKDIR /opt/EventStore-OSS-Ubuntu-14.04-v4.0.2
+WORKDIR /EventStoreDocker/EventStore-OSS-Win-v4.0.2
 
-CMD ./run-node.sh --ext-http-prefixes=http://*:2113/ --ext-ip=0.0.0.0 \
-    --db /data/db --log /data/logs --run-projections=all
+CMD /EventStore/EventStore.ClusterNode.exe \
+    --ext-http-prefixes 'http://+:2113/' --ext-ip 0.0.0.0 \
+    --db /Data --log /Logs --run-projections=all
